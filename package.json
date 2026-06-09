@@ -1,0 +1,24 @@
+{
+  "name": "jm-remotion-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "JuicyMania animation experiments and Remotion prototypes",
+  "license": "UNLICENSED",
+  "scripts": {
+    "preview": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts JuicyManiaIntro out/juicymania-intro.mp4",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "latest",
+    "@remotion/renderer": "latest",
+    "remotion": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "typescript": "latest"
+  }
+}
