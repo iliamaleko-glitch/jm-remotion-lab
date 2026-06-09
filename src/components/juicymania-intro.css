@@ -1,0 +1,288 @@
+:root {
+  --purple: #7a3cff;
+  --black: #020106;
+  --soft-white: #f7f2ff;
+}
+
+.jm-stage {
+  align-items: center;
+  background:
+    radial-gradient(circle at 50% 52%, rgba(122, 60, 255, 0.04) 0%, rgba(122, 60, 255, 0.01) 31%, transparent 62%),
+    linear-gradient(180deg, #030207 0%, var(--black) 54%, #000 100%);
+  color: var(--soft-white);
+  contain: layout paint style;
+  display: flex;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  justify-content: center;
+  overflow: hidden;
+  perspective: 1600px;
+}
+
+.void-room {
+  position: absolute;
+  inset: -12%;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.018) 0%, transparent 12%),
+    radial-gradient(ellipse at 50% 48%, rgba(122, 60, 255, 0.07), transparent 35%),
+    radial-gradient(ellipse at 50% 78%, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.88) 64%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018), transparent 15%, transparent 85%, rgba(255, 255, 255, 0.014)),
+    #010104;
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.void-reflection {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 999px;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.reflection-back {
+  width: 1240px;
+  height: 760px;
+  background:
+    radial-gradient(ellipse at 35% 42%, rgba(122, 60, 255, 0.14), transparent 44%),
+    radial-gradient(ellipse at 68% 56%, rgba(255, 255, 255, 0.034), transparent 40%);
+  filter: blur(52px);
+  transform: translate(-50%, -50%);
+}
+
+.reflection-near {
+  width: 760px;
+  height: 510px;
+  background:
+    linear-gradient(116deg, transparent 16%, rgba(247, 242, 255, 0.04) 46%, transparent 73%),
+    radial-gradient(ellipse at center, rgba(122, 60, 255, 0.08), transparent 64%);
+  filter: blur(30px);
+  transform: translate(-50%, -50%);
+}
+
+.dust-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  will-change: opacity;
+}
+
+.dust {
+  position: absolute;
+  display: block;
+  background: rgba(247, 242, 255, 0.66);
+  border-radius: 999px;
+  box-shadow: 0 0 7px rgba(122, 60, 255, 0.26);
+  filter: blur(0.2px);
+  will-change: opacity, transform;
+}
+
+.camera-rig {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.gateway {
+  position: relative;
+  width: 312px;
+  height: 464px;
+  transform-origin: 50% 47%;
+  transform-style: preserve-3d;
+  will-change: opacity, transform, filter;
+}
+
+.aperture {
+  position: absolute;
+  left: 52px;
+  top: 22px;
+  width: 208px;
+  height: 422px;
+  background: #010104;
+  border-radius: 999px 999px 42px 42px;
+  clip-path: path("M104 0C46.56 0 0 46.56 0 104C0 140.37 18.67 172.36 46.95 190.95L11.53 396.52C9.22 409.93 19.55 422 33.16 422H174.84C188.45 422 198.78 409.93 196.47 396.52L161.05 190.95C189.33 172.36 208 140.37 208 104C208 46.56 161.44 0 104 0Z");
+  overflow: hidden;
+  transform-origin: 50% 47%;
+  transform-style: preserve-3d;
+  z-index: 1;
+  will-change: transform;
+}
+
+.world,
+.inner-breath {
+  position: absolute;
+  pointer-events: none;
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.world {
+  inset: -34%;
+  mix-blend-mode: screen;
+}
+
+.world-far {
+  background:
+    radial-gradient(ellipse at 46% 23%, rgba(255, 255, 255, 0.16), transparent 20%),
+    radial-gradient(ellipse at 50% 58%, rgba(122, 60, 255, 0.46), rgba(122, 60, 255, 0.11) 32%, transparent 70%),
+    linear-gradient(180deg, rgba(2, 1, 6, 0.12), rgba(0, 0, 0, 0.82));
+  filter: blur(9px);
+}
+
+.world-middle {
+  background:
+    radial-gradient(ellipse at 64% 35%, rgba(247, 242, 255, 0.16), transparent 31%),
+    linear-gradient(104deg, transparent 22%, rgba(255, 255, 255, 0.15) 39%, rgba(122, 60, 255, 0.15) 47%, transparent 67%);
+  filter: blur(12px);
+}
+
+.world-near {
+  inset: -18%;
+  background: linear-gradient(90deg, transparent 0%, rgba(247, 242, 255, 0.48) 50%, transparent 100%);
+  filter: blur(18px);
+  mix-blend-mode: screen;
+}
+
+.inner-breath {
+  left: 50%;
+  top: 45%;
+  width: 172px;
+  height: 250px;
+  background: radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.42), rgba(122, 60, 255, 0.24) 36%, transparent 72%);
+  border-radius: 999px 999px 44px 44px;
+  filter: blur(20px);
+  mix-blend-mode: screen;
+  z-index: 2;
+}
+
+.keyhole-rim {
+  position: relative;
+  overflow: visible;
+  z-index: 3;
+}
+
+.rim-halo {
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  width: 194px;
+  height: 304px;
+  background: radial-gradient(circle at 50% 24%, rgba(255, 255, 255, 0.36), rgba(122, 60, 255, 0.24) 36%, transparent 72%);
+  border-radius: 999px 999px 48px 48px;
+  filter: blur(22px);
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  z-index: 2;
+  will-change: opacity, transform;
+}
+
+.threshold-edge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 460px;
+  height: 680px;
+  border-radius: 999px 999px 92px 92px;
+  box-shadow:
+    inset 0 0 64px rgba(255, 255, 255, 0.32),
+    inset 0 0 142px rgba(122, 60, 255, 0.46),
+    0 0 128px rgba(122, 60, 255, 0.3);
+  outline: 1px solid rgba(255, 255, 255, 0.16);
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.inner-sanctum {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.18) 0%, rgba(122, 60, 255, 0.17) 16%, rgba(7, 3, 18, 0.74) 48%, #000 79%),
+    linear-gradient(180deg, #030108 0%, #000 100%);
+  overflow: hidden;
+  pointer-events: none;
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.sanctum-depth {
+  position: absolute;
+  inset: -10%;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.sanctum-back {
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(122, 60, 255, 0.28), transparent 38%),
+    radial-gradient(ellipse at 50% 66%, rgba(255, 255, 255, 0.055), transparent 36%);
+  filter: blur(30px);
+}
+
+.sanctum-light {
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.11) 50%, transparent 100%),
+    radial-gradient(circle at 50% 50%, rgba(247, 242, 255, 0.12), transparent 24%);
+  filter: blur(20px);
+}
+
+.threshold-bloom {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 900px;
+  height: 900px;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(247, 242, 255, 0.84) 8%, rgba(122, 60, 255, 0.42) 24%, rgba(122, 60, 255, 0.11) 45%, transparent 69%),
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.68) 49.5%, rgba(255, 255, 255, 0.68) 50.5%, transparent 100%);
+  border-radius: 999px;
+  filter: blur(2px);
+  mix-blend-mode: screen;
+  will-change: opacity, transform;
+}
+
+.title-lockup {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-shadow: 0 0 34px rgba(122, 60, 255, 0.34);
+  will-change: transform, opacity, filter;
+}
+
+.eyebrow-line {
+  width: 168px;
+  height: 1px;
+  margin-bottom: 42px;
+  background: linear-gradient(90deg, transparent, rgba(232, 222, 255, 0.92), transparent);
+  box-shadow: 0 0 28px rgba(122, 60, 255, 0.55);
+}
+
+.title-lockup h1 {
+  margin: 0;
+  font-family: "Trajan Pro", Cinzel, Georgia, "Times New Roman", serif;
+  font-size: 98px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  line-height: 1;
+}
+
+.title-lockup p {
+  margin: 28px 0 0;
+  color: rgba(247, 242, 255, 0.76);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.42em;
+}
