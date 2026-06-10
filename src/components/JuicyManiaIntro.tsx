@@ -13,126 +13,111 @@ const PURPLE_SOFT = '#BBA4FF';
 const PURPLE_DEEP = '#2A1066';
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
-const dust = Array.from({length: 18}, (_, index) => ({
-  id: index,
-  x: 28 + ((index * 17) % 46) + Math.sin(index * 1.91) * 6,
-  y: 18 + ((index * 31) % 62),
-  size: 0.7 + (index % 3) * 0.38,
-  delay: index * 19,
-  drift: 8 + (index % 5) * 6,
-  depth: 0.56 + (index % 4) * 0.14,
-  opacity: 0.045 + (index % 4) * 0.014,
-}));
+const particles = Array.from({length: 30}, (_, index) => {
+  const lane = index % 10;
+  const depth = Math.floor(index / 10);
 
-const KeyholeGateway = ({
-  reveal,
-  awakening,
-  approach,
-  crossing,
+  return {
+    id: index,
+    x: 24 + lane * 6 + Math.sin(index * 1.7) * 8,
+    y: 16 + ((index * 23) % 70),
+    size: 1 + (index % 3) * 0.55,
+    delay: index * 5,
+    drift: 22 + depth * 12 + (index % 4) * 5,
+    opacity: 0.08 + (index % 5) * 0.025,
+  };
+});
+
+const Keyhole = ({
+  progress,
   pulse,
-  worldTime,
+  tension,
+  threshold,
+  worldShift,
 }: {
-  reveal: number;
-  awakening: number;
-  approach: number;
-  crossing: number;
+  progress: number;
   pulse: number;
-  worldTime: number;
+  tension: number;
+  threshold: number;
+  worldShift: number;
 }) => {
-  const rimAlive = interpolate(awakening, [0, 1], [0.16, 0.62], clamp);
-  const rimOpacity = interpolate(crossing, [0.66, 1], [1, 0], clamp);
-  const apertureScale = 0.94 + reveal * 0.04 + awakening * 0.05 + crossing * 2.65;
+  const glow = interpolate(pulse, [0, 1], [0.35, 1], clamp);
+  const tensionGlow = interpolate(tension, [0, 1], [0, 1], clamp);
 
   return (
     <div
-      className="gateway"
+      className="keyhole-shell"
       style={{
-        opacity: reveal * rimOpacity,
-        transform: `translate3d(0, ${interpolate(approach, [0, 1], [10, -18], clamp)}px, ${crossing * 260}px) rotateX(${-approach * 1.2}deg)`,
-        filter: `drop-shadow(0 0 ${18 + rimAlive * 86}px rgba(122, 60, 255, ${0.16 + rimAlive * 0.38}))`,
+        opacity: progress,
+        filter: `drop-shadow(0 0 ${28 + glow * 26 + tensionGlow * 42}px rgba(122, 60, 255, ${0.18 + glow * 0.24 + tensionGlow * 0.28}))`,
+        transform: `scale(${0.92 + progress * 0.08 + tensionGlow * 0.035})`,
       }}
     >
-      <div
-        className="aperture"
-        style={{transform: `scale(${apertureScale})`}}
-      >
+      <div className="keyhole-window">
         <div
-          className="world world-far"
+          className="behind-world depth-back"
           style={{
-            opacity: reveal * (0.16 + awakening * 0.42 + approach * 0.1),
-            transform: `translate3d(${-26 + worldTime * 52}px, ${18 - awakening * 24}px, -260px) scale(${1.05 + approach * 0.34 + crossing * 1.8})`,
+            opacity: progress * (0.48 + tension * 0.22),
+            transform: `translate3d(${-22 + worldShift * 34}px, ${12 - tension * 18}px, 0) scale(${1.04 + threshold * 0.32})`,
           }}
         />
         <div
-          className="world world-middle"
+          className="behind-world depth-mid"
           style={{
-            opacity: reveal * (0.12 + awakening * 0.34 + approach * 0.14),
-            transform: `translate3d(${26 - worldTime * 68}px, ${-20 + pulse * 34}px, -120px) scale(${1.02 + approach * 0.46 + crossing * 1.5})`,
+            opacity: progress * (0.38 + tension * 0.3),
+            transform: `translate3d(${18 - worldShift * 42}px, ${-18 + tension * 22}px, 0) scale(${1.03 + threshold * 0.42})`,
           }}
         />
         <div
-          className="world world-near"
+          className="living-light"
           style={{
-            opacity: reveal * (0.08 + awakening * 0.3 + approach * 0.18),
-            transform: `translate3d(${-86 + worldTime * 150}px, ${-52 + pulse * 96}px, 0) rotate(${12 - worldTime * 9}deg) scale(${1 + approach * 0.34 + crossing * 0.92})`,
+            opacity: progress * (0.26 + tension * 0.38),
+            transform: `translate3d(${-42 + worldShift * 84}px, ${-72 + pulse * 118}px, 0) rotate(${18 + worldShift * 8}deg)`,
           }}
         />
         <div
-          className="inner-breath"
+          className="threshold-shimmer"
           style={{
-            opacity: reveal * (0.08 + pulse * 0.12 + awakening * 0.26 + approach * 0.18),
-            transform: `translate(-50%, -50%) scale(${0.8 + pulse * 0.22 + approach * 0.4 + crossing * 1.2})`,
+            opacity: progress * interpolate(tension, [0, 1], [0.08, 0.34], clamp),
+            transform: `translateY(${24 - pulse * 48}px)`,
           }}
         />
       </div>
-
       <svg
-        className="keyhole-rim"
-        width="312"
-        height="464"
-        viewBox="0 0 312 464"
-        aria-label="JuicyMania gateway keyhole"
+        className="keyhole-outline"
+        width="238"
+        height="360"
+        viewBox="0 0 238 360"
+        aria-label="JuicyMania keyhole outline"
       >
         <path
-          d="M156 22C98.56 22 52 68.56 52 126C52 162.37 70.67 194.36 98.95 212.95L63.53 418.52C61.22 431.93 71.55 444 85.16 444H226.84C240.45 444 250.78 431.93 248.47 418.52L213.05 212.95C241.33 194.36 260 162.37 260 126C260 68.56 213.44 22 156 22Z"
-          fill="rgba(1, 1, 4, 0.62)"
-          stroke="url(#rimGradient)"
-          strokeWidth="5.2"
+          d="M119 12C72.06 12 34 50.06 34 97C34 126.63 49.16 152.72 72.14 167.92L44 326C42.08 336.78 50.37 347 61.32 347H176.68C187.63 347 195.92 336.78 194 326L165.86 167.92C188.84 152.72 204 126.63 204 97C204 50.06 165.94 12 119 12Z"
+          fill="rgba(2, 1, 6, 0.32)"
+          stroke="url(#keyholeGradient)"
+          strokeWidth="6"
           strokeLinecap="round"
           strokeLinejoin="round"
           pathLength="1"
           style={{
-            opacity: rimOpacity * (0.28 + reveal * 0.72),
             strokeDasharray: 1,
-            strokeDashoffset: 1 - reveal,
+            strokeDashoffset: 1 - progress,
           }}
         />
         <path
-          d="M156 58C114.58 58 81 91.58 81 133C81 158.62 93.83 181.25 113.42 194.79L85.92 414H226.08L198.58 194.79C218.17 181.25 231 158.62 231 133C231 91.58 197.42 58 156 58Z"
+          d="M119 35C84.21 35 56 63.21 56 98C56 119.88 67.16 139.15 84.1 150.44L61.7 324H176.3L153.9 150.44C170.84 139.15 182 119.88 182 98C182 63.21 153.79 35 119 35Z"
           fill="none"
-          stroke="rgba(255, 255, 255, 0.3)"
-          strokeWidth="1.2"
+          stroke="rgba(255, 255, 255, 0.22)"
+          strokeWidth="1.4"
+          strokeLinecap="round"
           pathLength="1"
           style={{
-            opacity: rimOpacity * reveal * (0.08 + awakening * 0.42 + pulse * 0.12),
-            strokeDasharray: '0.052 0.948',
-            strokeDashoffset: -worldTime * 1.1,
-          }}
-        />
-        <path
-          d="M156 22C98.56 22 52 68.56 52 126C52 162.37 70.67 194.36 98.95 212.95L63.53 418.52C61.22 431.93 71.55 444 85.16 444H226.84C240.45 444 250.78 431.93 248.47 418.52L213.05 212.95C241.33 194.36 260 162.37 260 126C260 68.56 213.44 22 156 22Z"
-          fill="none"
-          stroke="rgba(247, 242, 255, 0.46)"
-          strokeWidth="1"
-          pathLength="1"
-          style={{
-            opacity: rimOpacity * interpolate(reveal, [0, 1], [0, 0.42], clamp),
-            strokeDasharray: '0.12 0.11 0.025 0.2 0.08 0.465',
-            strokeDashoffset: 0.74 - reveal * 0.38 - worldTime * 0.06,
+            opacity: progress * (0.24 + pulse * 0.22 + tension * 0.32),
+            strokeDasharray: '0.08 0.92',
+            strokeDashoffset: -worldShift,
           }}
         />
         <defs>
-          <linearGradient id="rimGradient" x1="156" x2="156" y1="22" y2="444">
+          <linearGradient id="keyholeGradient" x1="119" x2="119" y1="12" y2="347">
             <stop offset="0%" stopColor="#FFFFFF" />
             <stop offset="34%" stopColor={PURPLE_SOFT} />
             <stop offset="62%" stopColor={PURPLE} />
@@ -141,10 +126,10 @@ const KeyholeGateway = ({
         </defs>
       </svg>
       <div
-        className="rim-halo"
+        className="keyhole-inner-glow"
         style={{
-          opacity: rimOpacity * reveal * (0.08 + awakening * 0.22 + pulse * 0.08),
-          transform: `translate(-50%, -50%) scale(${0.86 + awakening * 0.28 + approach * 0.52 + crossing * 2.4})`,
+          opacity: 0.12 + glow * 0.18 + tension * 0.26,
+          transform: `translate(-50%, -50%) scale(${1 + tension * 0.28 + threshold * 0.55})`,
         }}
       />
     </div>
@@ -155,146 +140,131 @@ export const JuicyManiaIntro = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
 
-  const voidLift = interpolate(frame, [0, 120], [0, 1], clamp);
-  const reveal = interpolate(frame, [120, 240], [0, 1], {
+  const emergence = interpolate(frame, [0, 72], [0, 1], clamp);
+  const keyholeReveal = interpolate(frame, [48, 126], [0, 1], clamp);
+  const livingPulse = (Math.sin((frame / fps) * Math.PI * 1.05) + 1) / 2;
+  const worldShift = frame / 300;
+
+  const tension = interpolate(frame, [122, 214], [0, 1], {
     ...clamp,
-    easing: Easing.bezier(0.2, 0, 0.22, 1),
-  });
-  const awakening = interpolate(frame, [240, 420], [0, 1], {
-    ...clamp,
-    easing: Easing.bezier(0.16, 0, 0.18, 1),
-  });
-  const approach = interpolate(frame, [420, 600], [0, 1], {
-    ...clamp,
-    easing: Easing.bezier(0.32, 0, 0.22, 1),
-  });
-  const crossing = interpolate(frame, [600, 705], [0, 1], {
-    ...clamp,
-    easing: Easing.bezier(0.78, 0, 1, 1),
-  });
-  const arrival = interpolate(frame, [690, 780], [0, 1], clamp);
-  const titleIn = interpolate(frame, [735, 820], [0, 1], {
-    ...clamp,
-    easing: Easing.bezier(0.18, 0.88, 0.34, 1),
-  });
-  const bloom = interpolate(frame, [682, 708, 756], [0, 1, 0], {
-    ...clamp,
-    easing: Easing.bezier(0.08, 0, 0.22, 1),
+    easing: Easing.bezier(0.22, 0, 0.12, 1),
   });
 
-  const pulse = (Math.sin((frame / fps) * Math.PI * 0.82) + 1) / 2;
   const breath = spring({
-    frame: frame - 270,
+    frame: frame - 94,
     fps,
-    config: {damping: 54, stiffness: 16, mass: 3},
-    durationInFrames: 220,
+    config: {
+      damping: 42,
+      stiffness: 22,
+      mass: 2.6,
+    },
+    durationInFrames: 118,
   });
-  const worldTime = frame / 840;
-  const cameraZ = interpolate(approach, [0, 1], [0, 280], clamp) + interpolate(crossing, [0, 1], [0, 1880], clamp);
-  const cameraScale = interpolate(approach, [0, 1], [1 + breath * 0.025, 1.34], clamp) + interpolate(crossing, [0, 1], [0, 7.4], clamp);
-  const outsideOpacity = interpolate(crossing, [0.5, 0.92], [1, 0], clamp);
+
+  const threshold = interpolate(frame, [204, 238], [0, 1], {
+    ...clamp,
+    easing: Easing.bezier(0.7, 0, 1, 1),
+  });
+
+  const cameraScale = interpolate(threshold, [0, 1], [1 + breath * 0.08, 12.4], clamp);
+  const cameraY = interpolate(tension, [0, 1], [0, -22], clamp);
+  const fieldOpacity = interpolate(frame, [236, 254], [1, 0], clamp);
+  const bloom = interpolate(frame, [230, 241, 263], [0, 1, 0], {
+    ...clamp,
+    easing: Easing.bezier(0.12, 0, 0.22, 1),
+  });
+  const crossingWash = interpolate(frame, [238, 258], [0, 1], clamp);
+  const titleIn = interpolate(frame, [258, 292], [0, 1], {
+    ...clamp,
+    easing: Easing.bezier(0.16, 0.84, 0.38, 1),
+  });
+  const titleDrift = interpolate(frame, [258, 300], [34, 0], clamp);
 
   return (
     <AbsoluteFill className="jm-stage">
       <div
-        className="void-room"
+        className="ambient-vignette"
         style={{
-          opacity: outsideOpacity,
-          transform: `translate3d(0, ${-approach * 18}px, ${-cameraZ * 0.05}px) scale(${1 + crossing * 0.38})`,
+          opacity: 0.12 + emergence * 0.68 + tension * 0.16,
+          transform: `scale(${1 + threshold * 0.48})`,
         }}
       />
       <div
-        className="void-reflection reflection-back"
+        className="atmosphere-layer atmosphere-back"
         style={{
-          opacity: voidLift * (0.12 + reveal * 0.18 + awakening * 0.12) * outsideOpacity,
-          transform: `translate3d(${-worldTime * 38}px, ${-approach * 18}px, 0) scale(${1 + crossing * 0.42})`,
+          opacity: emergence * 0.38,
+          transform: `translate3d(${worldShift * -38}px, ${tension * -18}px, 0) scale(${1 + threshold * 0.32})`,
         }}
       />
       <div
-        className="void-reflection reflection-near"
+        className="atmosphere-layer atmosphere-front"
         style={{
-          opacity: voidLift * (0.08 + reveal * 0.12 + awakening * 0.12) * outsideOpacity,
-          transform: `translate3d(${worldTime * 50}px, ${approach * 14}px, 0) scale(${1 + crossing * 0.76})`,
+          opacity: emergence * (0.2 + tension * 0.18),
+          transform: `translate3d(${worldShift * 52}px, ${tension * 16}px, 0) scale(${1 + threshold * 0.62})`,
         }}
       />
       <div
-        className="dust-field"
-        style={{opacity: interpolate(frame, [28, 126, 650, 710], [0, 0.32, 0.34, 0], clamp)}}
+        className="particle-field"
+        style={{opacity: interpolate(frame, [28, 94, 232, 252], [0, 0.62, 0.72, 0], clamp)}}
       >
-        {dust.map((particle) => {
-          const travel = ((frame + particle.delay) % 260) / 260;
+        {particles.map((particle) => {
+          const travel = ((frame + particle.delay) % 150) / 150;
+          const zScale = 0.65 + travel * 0.75 + threshold * 1.8;
 
           return (
             <span
               key={particle.id}
-              className="dust"
+              className="atmosphere-particle"
               style={{
                 left: `${particle.x}%`,
                 top: `${particle.y}%`,
                 width: particle.size,
                 height: particle.size,
-                opacity: particle.opacity * (0.45 + reveal * 0.45 + awakening * 0.42),
-                transform: `translate3d(${(travel - 0.5) * particle.drift}px, ${travel * -42}px, ${travel * 120 * particle.depth}px) scale(${0.62 + travel * 0.42 + crossing * 0.72})`,
+                opacity: particle.opacity * (0.4 + tension * 0.8),
+                transform: `translate3d(${(travel - 0.5) * particle.drift}px, ${travel * -58}px, 0) scale(${zScale})`,
               }}
             />
           );
         })}
       </div>
-
       <div
-        className="camera-rig"
+        className="purple-horizon"
         style={{
-          transform: `translate3d(0, ${interpolate(approach, [0, 1], [0, -12], clamp)}px, ${cameraZ}px) scale(${cameraScale})`,
-        }}
-      >
-        <KeyholeGateway
-          reveal={reveal}
-          awakening={awakening}
-          approach={approach}
-          crossing={crossing}
-          pulse={pulse}
-          worldTime={worldTime}
-        />
-      </div>
-
-      <div
-        className="threshold-edge"
-        style={{
-          opacity: interpolate(crossing, [0.18, 0.58, 1], [0, 0.74, 0], clamp),
-          transform: `translate(-50%, -50%) scale(${0.55 + crossing * 2.55})`,
+          opacity: emergence * interpolate(frame, [214, 250], [1, 0.16], clamp),
+          transform: `translate(-50%, -50%) scale(${0.82 + emergence * 0.28 + tension * 0.22 + threshold * 1.25})`,
         }}
       />
-
       <div
-        className="inner-sanctum"
+        className="cinematic-field"
         style={{
-          opacity: arrival,
-          transform: `scale(${1.18 - arrival * 0.18}) translateY(${(1 - arrival) * 34}px)`,
+          transform: `translateY(${cameraY}px) scale(${cameraScale})`,
+          opacity: fieldOpacity,
         }}
       >
-        <div
-          className="sanctum-depth sanctum-back"
-          style={{transform: `translate3d(${-28 + arrival * 28}px, ${-10 + arrival * 10}px, 0)`}}
-        />
-        <div
-          className="sanctum-depth sanctum-light"
-          style={{transform: `translate3d(${34 - arrival * 34}px, ${18 - arrival * 18}px, 0)`}}
+        <Keyhole
+          progress={keyholeReveal}
+          pulse={livingPulse}
+          tension={tension}
+          threshold={threshold}
+          worldShift={worldShift}
         />
       </div>
-
       <div
         className="threshold-bloom"
         style={{
           opacity: bloom,
-          transform: `translate(-50%, -50%) scale(${0.28 + bloom * 2.7 + crossing * 0.8})`,
+          transform: `translate(-50%, -50%) scale(${0.18 + bloom * 2.25 + threshold * 1.6})`,
         }}
       />
-
+      <div
+        className="crossing-wash"
+        style={{opacity: crossingWash * interpolate(frame, [258, 300], [1, 0.18], clamp)}}
+      />
       <div
         className="title-lockup"
         style={{
           opacity: titleIn,
-          transform: `translateY(${interpolate(titleIn, [0, 1], [30, 0], clamp)}px) scale(${0.986 + titleIn * 0.014})`,
+          transform: `translateY(${titleDrift}px) scale(${0.985 + titleIn * 0.015})`,
           filter: `blur(${interpolate(titleIn, [0, 1], [12, 0], clamp)}px)`,
         }}
       >

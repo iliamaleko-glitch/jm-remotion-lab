@@ -8,21 +8,12 @@ This repository contains a complete Remotion project with a single composition, 
 
 ### Video specs
 
-- Duration: 14 seconds (`840` frames)
+- Duration: 5 seconds (`300` frames)
 - FPS: `60`
 - Size: `1920x1080`
 - Style: luxury black background, deep purple glow (`#7A3CFF`), mysterious access-threshold atmosphere, and premium cinematic motion
-- Motion arc: two-second void, fragmented keyhole discovery, slow awakening, accelerated approach, threshold crossing, white-purple bloom, and final access lockup
+- Motion arc: darkness bloom, living keyhole, parallax world-glimpses, tension build, accelerated threshold crossing, white-purple bloom, and drop opening-screen lockup
 - Implementation: procedural SVG/CSS gradients, deterministic particles, transforms, and frame-driven Remotion animation; no images or heavy assets
-
-### V3 story structure
-
-- **0–2s — Void:** near-black frame with sparse dust and barely visible purple reflections.
-- **2–4s — Discovery:** the keyhole gateway appears in fragments rather than as a full logo mark.
-- **4–7s — Awakening:** restrained motion inside the aperture suggests a hidden world beyond it.
-- **7–10s — Approach:** the camera begins a physical push toward the gateway with increasing tension.
-- **10–12s — Crossing:** the threshold edge blooms as the viewer passes through the keyhole.
-- **12–14s — Access:** the inner sanctum resolves into the drop opening screen: `DROP #001`, `CLEMENCE AUDIARD`, and `ACCESS IS EARNED`.
 
 ## How to preview locally
 
@@ -60,6 +51,6 @@ npx remotion render src/index.ts JuicyManiaIntro out/juicymania-intro.mp4
     ├── index.ts                         # Remotion root registration
     ├── Root.tsx                         # Composition registry
     └── components
-        ├── JuicyManiaIntro.tsx          # 14-second drop intro animation
+        ├── JuicyManiaIntro.tsx          # 5-second drop intro animation
         └── juicymania-intro.css         # Lightweight procedural visual styling
 ```
