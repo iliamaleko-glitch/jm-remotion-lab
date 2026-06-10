@@ -8,11 +8,11 @@ This repository contains a complete Remotion project with a single composition, 
 
 ### Video specs
 
-- Duration: 4.8 seconds (`288` frames)
+- Duration: 5 seconds (`300` frames)
 - FPS: `60`
 - Size: `1920x1080`
 - Style: luxury black background, deep purple glow (`#7A3CFF`), mysterious access-threshold atmosphere, and premium cinematic motion
-- Motion arc: darkness bloom, living keyhole, parallax world-glimpses, tension build, accelerated threshold crossing, white-purple bloom, and drop opening-screen lockup
+- Motion arc: darkness bloom, living keyhole, parallax world-glimpses, tension build, accelerated threshold crossing, white-purple bloom, and final access lockup
 - Implementation: procedural SVG/CSS gradients, deterministic particles, transforms, and frame-driven Remotion animation; no images or heavy assets
 
 ## How to preview locally
@@ -51,6 +51,6 @@ npx remotion render src/index.ts JuicyManiaIntro out/juicymania-intro.mp4
     ├── index.ts                         # Remotion root registration
     ├── Root.tsx                         # Composition registry
     └── components
-        ├── JuicyManiaIntro.tsx          # 4.8-second drop intro animation
+        ├── JuicyManiaIntro.tsx          # 5-second intro animation
         └── juicymania-intro.css         # Lightweight procedural visual styling
 ```

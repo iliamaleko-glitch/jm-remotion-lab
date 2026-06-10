@@ -6,7 +6,7 @@ export const Root = () => {
     <Composition
       id="JuicyManiaIntro"
       component={JuicyManiaIntro}
-      durationInFrames={288}
+      durationInFrames={300}
       fps={60}
       width={1920}
       height={1080}
