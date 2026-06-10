@@ -15,6 +15,15 @@ This repository contains a complete Remotion project with a single composition, 
 - Motion arc: two-second void, fragmented keyhole discovery, slow awakening, accelerated approach, threshold crossing, white-purple bloom, and final access lockup
 - Implementation: procedural SVG/CSS gradients, deterministic particles, transforms, and frame-driven Remotion animation; no images or heavy assets
 
+### V3 story structure
+
+- **0–2s — Void:** near-black frame with sparse dust and barely visible purple reflections.
+- **2–4s — Discovery:** the keyhole gateway appears in fragments rather than as a full logo mark.
+- **4–7s — Awakening:** restrained motion inside the aperture suggests a hidden world beyond it.
+- **7–10s — Approach:** the camera begins a physical push toward the gateway with increasing tension.
+- **10–12s — Crossing:** the threshold edge blooms as the viewer passes through the keyhole.
+- **12–14s — Access:** the inner sanctum resolves and reveals the JuicyMania lockup.
+
 ## How to preview locally
 
 Install dependencies, then start Remotion Studio:
