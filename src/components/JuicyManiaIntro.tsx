@@ -9,6 +9,8 @@ import {
 import './juicymania-intro.css';
 
 const PURPLE = '#7A3CFF';
+const PURPLE_SOFT = '#BBA4FF';
+const PURPLE_DEEP = '#2A1066';
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
 const particles = Array.from({length: 30}, (_, index) => {
@@ -116,9 +118,10 @@ const Keyhole = ({
         />
         <defs>
           <linearGradient id="keyholeGradient" x1="119" x2="119" y1="12" y2="347">
-            <stop offset="0%" stopColor="#F7F2FF" />
-            <stop offset="38%" stopColor={PURPLE} />
-            <stop offset="100%" stopColor="#28115D" />
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="34%" stopColor={PURPLE_SOFT} />
+            <stop offset="62%" stopColor={PURPLE} />
+            <stop offset="100%" stopColor={PURPLE_DEEP} />
           </linearGradient>
         </defs>
       </svg>
@@ -265,9 +268,11 @@ export const JuicyManiaIntro = () => {
           filter: `blur(${interpolate(titleIn, [0, 1], [12, 0], clamp)}px)`,
         }}
       >
-        <div className="eyebrow-line" />
-        <h1>JUICYMANIA</h1>
-        <p>ACCESS IS EARNED</p>
+        <div className="drop-card">
+          <div className="drop-kicker">DROP #001</div>
+          <h1>CLEMENCE AUDIARD</h1>
+          <p>ACCESS IS EARNED</p>
+        </div>
       </div>
     </AbsoluteFill>
   );
