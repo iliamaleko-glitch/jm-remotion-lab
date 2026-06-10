@@ -264,25 +264,35 @@
 }
 
 .drop-kicker {
-  color: var(--jm-purple-soft);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.48em;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: "Bodoni 72 Smallcaps", "Bodoni 72", Didot, "Times New Roman", serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.44em;
   line-height: 1;
-  margin-bottom: 74px;
-  opacity: 0.86;
-  text-shadow: 0 0 22px rgba(122, 60, 255, 0.28);
+  margin-bottom: 76px;
+  opacity: 0.88;
+  text-shadow: 0 0 12px rgba(122, 60, 255, 0.14);
 }
 
 .title-lockup h1 {
   color: var(--jm-ink);
-  font-family: inherit;
-  font-size: 74px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  line-height: 0.96;
+  font-family: "Bodoni 72", Didot, "Times New Roman", serif;
+  font-size: 88px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  line-height: 0.9;
   margin: 0;
-  text-shadow: 0 0 38px rgba(122, 60, 255, 0.26);
+  text-rendering: geometricPrecision;
+  text-shadow: 0 0 12px rgba(122, 60, 255, 0.12);
+}
+
+.title-lockup h1 span {
+  display: block;
+}
+
+.title-lockup h1 span + span {
+  margin-top: 0.18em;
 }
 
 .title-lockup p {

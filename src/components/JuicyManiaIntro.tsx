@@ -270,7 +270,7 @@ export const JuicyManiaIntro = () => {
       >
         <div className="drop-card">
           <div className="drop-kicker">DROP #001</div>
-          <h1>CLEMENCE AUDIARD</h1>
+          <h1><span>CLEMENCE</span><span>AUDIARD</span></h1>
           <p>ACCESS IS EARNED</p>
         </div>
       </div>
