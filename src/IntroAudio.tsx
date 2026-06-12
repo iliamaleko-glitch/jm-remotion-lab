@@ -11,38 +11,39 @@ type ClipEnvelope = {
 };
 
 const CLIPS: ClipEnvelope[] = [
- {
-  id: 'atmosphere',
-  src: 'audio/atmosphere.wav',
-  startSec: 0.0,
-  durationSec: 5.0,
-  trimBeforeSec: 0,
-  envelope: [
-    [0.0, 0.0],
-    [0.05, 0.14],
-    [0.44, 0.22],
-    [0.55, 0.18],
-    [0.92, 0.18],
-  ],
-},
-{
-  id: 'sub-swell',
-  src: 'audio/sub-swell.wav',
-  startSec: 0.0,
-  durationSec: 5.0,
-  trimBeforeSec: 0,
-  envelope: [
-    [0.0, 0.0],
-    [0.04, 0.12],
-    [0.44, 0.2],
-    [0.52, 0.22
-],
-    [0.74, 0.14],
-    [0.8, 0.26],
-    [0.86, 0.18],
-    [1.0, 0.0],
-  ],
-}, {
+  {
+    id: 'atmosphere',
+    src: 'audio/atmosphere-air.wav',
+    startSec: 0.0,
+    durationSec: 5.0,
+    trimBeforeSec: 0,
+    envelope: [
+      [0.0, 0.0],
+      [0.05, 0.14],
+      [0.44, 0.22],
+      [0.55, 0.18],
+      [0.92, 0.18],
+      [1.0, 0.0],
+    ],
+  },
+  {
+    id: 'sub-swell',
+    src: 'audio/sub-swell.wav',
+    startSec: 0.0,
+    durationSec: 5.0,
+    trimBeforeSec: 0,
+    envelope: [
+      [0.0, 0.0],
+      [0.04, 0.12],
+      [0.44, 0.2],
+      [0.52, 0.18],
+      [0.74, 0.14],
+      [0.8, 0.22],
+      [0.86, 0.18],
+      [1.0, 0.0],
+    ],
+  },
+  {
     id: 'lock-velvety',
     src: 'audio/lock-velvety.wav',
     startSec: 2.216,
@@ -126,4 +127,6 @@ export const IntroAudio: React.FC = () => {
 };
 
 export default IntroAudio;
+
+
 
