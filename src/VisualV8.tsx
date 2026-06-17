@@ -44,9 +44,9 @@ const createParticles = (
   });
 };
 
-const farParticles = createParticles(34, 3, 0.75, 0.12, 0.055, 0.008, 14);
-const midParticles = createParticles(24, 47, 1.25, 0.22, 0.075, 0.012, 28);
-const nearParticles = createParticles(16, 103, 2.1, 0.42, 0.065, 0.012, 44);
+const farParticles = createParticles(38, 3, 0.62, 0.1, 0.04, 0.006, 11);
+const midParticles = createParticles(28, 47, 1.35, 0.24, 0.09, 0.014, 34);
+const nearParticles = createParticles(20, 103, 2.75, 0.56, 0.085, 0.016, 58);
 
 const BackgroundGlow: React.FC<{frame: number}> = ({frame}) => {
   const breath = interpolate(frame, [0, 150, 300], [1, 1.035, 1.012], clamp);
@@ -130,9 +130,9 @@ const DepthParticleLayer: React.FC<{
           <span
             key={particle.id}
             style={{
-              background: 'rgba(247, 242, 255, 0.74)',
+              background: 'rgba(247, 242, 255, 0.78)',
               borderRadius: '999px',
-              boxShadow: '0 0 10px rgba(122, 60, 255, 0.22)',
+              boxShadow: `0 0 ${8 + particle.size * 3}px rgba(122, 60, 255, ${0.16 + particle.size * 0.035})`,
               display: 'block',
               height: particle.size,
               left: `${particle.x}%`,
@@ -155,26 +155,26 @@ const DepthParticles: React.FC<{frame: number}> = ({frame}) => {
       <DepthParticleLayer
         particles={farParticles}
         frame={frame}
-        travelFrames={260}
-        parallax={0.45}
-        blur={0}
-        layerOpacity={0.58}
+        travelFrames={285}
+        parallax={0.32}
+        blur={0.15}
+        layerOpacity={0.44}
       />
       <DepthParticleLayer
         particles={midParticles}
         frame={frame}
-        travelFrames={210}
-        parallax={0.72}
-        blur={0.25}
-        layerOpacity={0.62}
+        travelFrames={205}
+        parallax={0.86}
+        blur={0.35}
+        layerOpacity={0.7}
       />
       <DepthParticleLayer
         particles={nearParticles}
         frame={frame}
-        travelFrames={170}
-        parallax={1}
-        blur={1.2}
-        layerOpacity={0.48}
+        travelFrames={145}
+        parallax={1.38}
+        blur={1.65}
+        layerOpacity={0.62}
       />
     </AbsoluteFill>
   );
@@ -192,12 +192,36 @@ const Vignette: React.FC = () => {
   );
 };
 
-const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
-  const reveal = interpolate(frame, [18, 72, 128], [0, 0.85, 1], clamp);
-  const settle = interpolate(frame, [120, 150, 210], [1.04, 1, 0.985], clamp);
-  const driftY = interpolate(frame, [0, 150, 300], [8, 0, -6], clamp);
-  const pulse = interpolate(frame, [120, 138, 158], [0, 1, 0], clamp);
-  const glow = 0.22 + pulse * 0.28;
+const ThresholdBloom: React.FC<{frame: number}> = ({frame}) => {
+  const reveal = interpolate(frame, [120, 160, 200], [0, 0.72, 0.36], clamp);
+  const passThrough = interpolate(frame, [120, 170, 200], [0, 1, 0.72], clamp);
+  const squeeze = interpolate(frame, [120, 162, 200], [0.58, 1.2, 1.03], clamp);
+
+  return (
+    <AbsoluteFill
+      style={{
+        background:
+          `radial-gradient(ellipse at center, rgba(255, 240, 214, ${0.14 + passThrough * 0.08}) 0%, rgba(161, 118, 255, ${0.18 + passThrough * 0.1}) 12%, rgba(60, 24, 118, 0.2) 28%, transparent 54%), ` +
+          `conic-gradient(from ${frame * 0.22}deg at 50% 50%, transparent 0deg, rgba(187, 164, 255, 0.12) 34deg, transparent 78deg, rgba(112, 52, 235, 0.16) 126deg, transparent 178deg, rgba(255, 235, 205, 0.08) 226deg, transparent 312deg)`,
+        filter: 'blur(18px)',
+        mixBlendMode: 'screen',
+        opacity: reveal,
+        pointerEvents: 'none',
+        transform: `scale(${squeeze})`,
+        transformOrigin: 'center',
+      }}
+    />
+  );
+};
+
+const BrandTypography: React.FC<{frame: number}> = ({frame}) => {
+  const jmReveal = interpolate(frame, [150, 196, 240], [0, 0.78, 1], clamp);
+  const jmScale = interpolate(frame, [150, 212, 260], [0.66, 1.08, 1], clamp);
+  const jmY = interpolate(frame, [150, 220, 300], [24, -18, -38], clamp);
+  const wordReveal = interpolate(frame, [220, 260, 300], [0, 0.86, 1], clamp);
+  const wordY = interpolate(frame, [220, 266, 300], [38, 2, -4], clamp);
+  const apertureMask = interpolate(frame, [150, 205, 240], [18, 64, 112], clamp);
+  const tracking = interpolate(frame, [220, 300], [20, 9], clamp);
 
   return (
     <AbsoluteFill
@@ -206,7 +230,88 @@ const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
         display: 'flex',
         justifyContent: 'center',
         pointerEvents: 'none',
-        transform: `translateY(${driftY}px) scale(${settle})`,
+      }}
+    >
+      <div
+        style={{
+          alignItems: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 18,
+          transform: `translateY(${jmY}px)`,
+        }}
+      >
+        <div
+          style={{
+            color: '#fff6e8',
+            fontFamily: 'Georgia, "Times New Roman", serif',
+            fontSize: 178,
+            fontWeight: 700,
+            letterSpacing: '-0.08em',
+            lineHeight: 0.82,
+            opacity: jmReveal,
+            textShadow:
+              '0 0 18px rgba(255, 246, 232, 0.34), 0 0 54px rgba(122, 60, 255, 0.48), 0 18px 40px rgba(0, 0, 0, 0.72)',
+            transform: `scale(${jmScale})`,
+            transformOrigin: 'center',
+            WebkitMaskImage: `radial-gradient(ellipse ${apertureMask}% ${apertureMask * 0.72}% at center, #000 0%, #000 54%, rgba(0,0,0,0.28) 72%, transparent 100%)`,
+            maskImage: `radial-gradient(ellipse ${apertureMask}% ${apertureMask * 0.72}% at center, #000 0%, #000 54%, rgba(0,0,0,0.28) 72%, transparent 100%)`,
+          }}
+        >
+          JM
+        </div>
+
+        <div
+          style={{
+            background: 'linear-gradient(90deg, rgba(152,122,214,0.78), #fff1d6 36%, #ffffff 50%, #b58bff 72%, rgba(88,44,178,0.84))',
+            backgroundClip: 'text',
+            color: 'transparent',
+            fontFamily: 'Inter, Avenir Next, Montserrat, Arial, sans-serif',
+            fontSize: 44,
+            fontWeight: 650,
+            letterSpacing: tracking,
+            opacity: wordReveal,
+            paddingLeft: tracking,
+            textShadow: '0 0 24px rgba(122, 60, 255, 0.28)',
+            transform: `translateY(${wordY}px)`,
+            WebkitBackgroundClip: 'text',
+          }}
+        >
+          JUICYMANIA
+        </div>
+
+        <div
+          style={{
+            background: 'linear-gradient(90deg, transparent, rgba(255, 246, 232, 0.64), rgba(122, 60, 255, 0.42), transparent)',
+            height: 1,
+            opacity: wordReveal * 0.78,
+            transform: `translateY(${wordY + 5}px) scaleX(${interpolate(frame, [220, 285], [0.24, 1], clamp)})`,
+            transformOrigin: 'center',
+            width: 520,
+          }}
+        />
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
+  const reveal = interpolate(frame, [60, 112, 150], [0, 0.58, 1], clamp);
+  const settle = interpolate(frame, [110, 150, 220], [1.07, 1, 0.985], clamp);
+  const driftY = interpolate(frame, [60, 150, 238, 300], [10, 0, -56, -62], clamp);
+  const presentationScale = interpolate(frame, [220, 260, 300], [1, 0.82, 0.78], clamp);
+  const pulse = interpolate(frame, [130, 150, 178], [0, 1, 0], clamp);
+  const rimPulse = interpolate(frame, [118, 150, 182], [0, 1, 0], clamp);
+  const glow = 0.28 + pulse * 0.42;
+
+  return (
+    <AbsoluteFill
+      style={{
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        pointerEvents: 'none',
+        transform: `translateY(${driftY}px) scale(${settle * presentationScale})`,
         opacity: reveal,
       }}
     >
@@ -215,7 +320,7 @@ const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
         height="430"
         viewBox="0 0 310 430"
         style={{
-          filter: `drop-shadow(0 0 ${22 + pulse * 18}px rgba(122, 60, 255, ${glow}))`,
+          filter: `drop-shadow(0 0 ${24 + pulse * 26}px rgba(122, 60, 255, ${glow})) drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58))`,
           overflow: 'visible',
         }}
       >
@@ -247,7 +352,7 @@ const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
              C228 199 246 168 246 133
              C246 82 207 42 155 42Z"
           fill="url(#v8-keyhole-inner)"
-          opacity={0.78}
+          opacity={0.86}
         />
 
         <path
@@ -263,10 +368,10 @@ const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
              C246 82 207 42 155 42Z"
           fill="none"
           stroke="url(#v8-keyhole-edge)"
-          strokeWidth="5"
+          strokeWidth="6"
           strokeLinecap="round"
           strokeLinejoin="round"
-          opacity={0.92}
+          opacity={0.94 + rimPulse * 0.06}
         />
 
         <path
@@ -275,9 +380,9 @@ const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
              C78 162 93 188 118 202"
           fill="none"
           stroke="rgba(255,246,232,0.68)"
-          strokeWidth="3"
+          strokeWidth="3.5"
           strokeLinecap="round"
-          opacity={0.5 + pulse * 0.28}
+          opacity={0.62 + pulse * 0.26}
         />
       </svg>
     </AbsoluteFill>
@@ -292,6 +397,8 @@ const VisualV8: React.FC = () => {
       <BackgroundGlow frame={frame} />
       <WarmCoreWhisper frame={frame} />
       <DepthParticles frame={frame} />
+      <ThresholdBloom frame={frame} />
+      <BrandTypography frame={frame} />
       <KeyholeArtifact frame={frame} />
       <FilmGrain frame={frame} />
       <Vignette />
