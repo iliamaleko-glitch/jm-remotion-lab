@@ -44,9 +44,9 @@ const createParticles = (
   });
 };
 
-const farParticles = createParticles(38, 3, 0.62, 0.1, 0.04, 0.006, 11);
-const midParticles = createParticles(28, 47, 1.35, 0.24, 0.09, 0.014, 34);
-const nearParticles = createParticles(20, 103, 2.75, 0.56, 0.085, 0.016, 58);
+const farParticles = createParticles(34, 3, 0.75, 0.12, 0.055, 0.008, 14);
+const midParticles = createParticles(24, 47, 1.25, 0.22, 0.075, 0.012, 28);
+const nearParticles = createParticles(16, 103, 2.1, 0.42, 0.065, 0.012, 44);
 
 const BackgroundGlow: React.FC<{frame: number}> = ({frame}) => {
   const breath = interpolate(frame, [0, 150, 300], [1, 1.035, 1.012], clamp);
@@ -130,9 +130,9 @@ const DepthParticleLayer: React.FC<{
           <span
             key={particle.id}
             style={{
-              background: 'rgba(247, 242, 255, 0.78)',
+              background: 'rgba(247, 242, 255, 0.74)',
               borderRadius: '999px',
-              boxShadow: `0 0 ${8 + particle.size * 3}px rgba(122, 60, 255, ${0.16 + particle.size * 0.035})`,
+              boxShadow: '0 0 10px rgba(122, 60, 255, 0.22)',
               display: 'block',
               height: particle.size,
               left: `${particle.x}%`,
@@ -155,26 +155,26 @@ const DepthParticles: React.FC<{frame: number}> = ({frame}) => {
       <DepthParticleLayer
         particles={farParticles}
         frame={frame}
-        travelFrames={285}
-        parallax={0.32}
-        blur={0.15}
-        layerOpacity={0.44}
+        travelFrames={260}
+        parallax={0.45}
+        blur={0}
+        layerOpacity={0.58}
       />
       <DepthParticleLayer
         particles={midParticles}
         frame={frame}
-        travelFrames={205}
-        parallax={0.86}
-        blur={0.35}
-        layerOpacity={0.7}
+        travelFrames={210}
+        parallax={0.72}
+        blur={0.25}
+        layerOpacity={0.62}
       />
       <DepthParticleLayer
         particles={nearParticles}
         frame={frame}
-        travelFrames={145}
-        parallax={1.38}
-        blur={1.65}
-        layerOpacity={0.62}
+        travelFrames={170}
+        parallax={1}
+        blur={1.2}
+        layerOpacity={0.48}
       />
     </AbsoluteFill>
   );
@@ -301,8 +301,7 @@ const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
   const driftY = interpolate(frame, [60, 150, 238, 300], [10, 0, -56, -62], clamp);
   const presentationScale = interpolate(frame, [220, 260, 300], [1, 0.82, 0.78], clamp);
   const pulse = interpolate(frame, [130, 150, 178], [0, 1, 0], clamp);
-  const rimPulse = interpolate(frame, [118, 150, 182], [0, 1, 0], clamp);
-  const glow = 0.28 + pulse * 0.42;
+  const glow = 0.22 + pulse * 0.28;
 
   return (
     <AbsoluteFill
@@ -320,7 +319,7 @@ const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
         height="430"
         viewBox="0 0 310 430"
         style={{
-          filter: `drop-shadow(0 0 ${24 + pulse * 26}px rgba(122, 60, 255, ${glow})) drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58))`,
+          filter: `drop-shadow(0 0 ${22 + pulse * 18}px rgba(122, 60, 255, ${glow}))`,
           overflow: 'visible',
         }}
       >
@@ -352,7 +351,7 @@ const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
              C228 199 246 168 246 133
              C246 82 207 42 155 42Z"
           fill="url(#v8-keyhole-inner)"
-          opacity={0.86}
+          opacity={0.78}
         />
 
         <path
@@ -368,10 +367,10 @@ const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
              C246 82 207 42 155 42Z"
           fill="none"
           stroke="url(#v8-keyhole-edge)"
-          strokeWidth="6"
+          strokeWidth="5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          opacity={0.94 + rimPulse * 0.06}
+          opacity={0.92}
         />
 
         <path
@@ -380,9 +379,9 @@ const KeyholeArtifact: React.FC<{frame: number}> = ({frame}) => {
              C78 162 93 188 118 202"
           fill="none"
           stroke="rgba(255,246,232,0.68)"
-          strokeWidth="3.5"
+          strokeWidth="3"
           strokeLinecap="round"
-          opacity={0.62 + pulse * 0.26}
+          opacity={0.5 + pulse * 0.28}
         />
       </svg>
     </AbsoluteFill>
